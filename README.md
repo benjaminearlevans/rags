@@ -1,5 +1,11 @@
 # RAGs
 
+
+
+https://github.com/run-llama/rags/assets/4858925/a6204550-b3d1-4cde-b308-8d944e5d3058
+
+
+
 RAGs is a Streamlit app that lets you create a RAG pipeline from a data source using natural language.
 
 You get to do the following:
@@ -11,14 +17,14 @@ This project is inspired by [GPTs](https://openai.com/blog/introducing-gpts), la
 
 ## Installation and Setup 
 
-Clone this project, go into the `rags` project folder.
+Clone this project, go into the `rags` project folder. We recommend creating a virtual env for dependencies (`python3 -m venv .venv`).
 
 ```
-pip install -r requirements.txt
+poetry install --with dev
 ```
 
 By default, we use OpenAI for both the builder agent as well as the generated RAG agent.
-Please `.streamlit/secrets.toml` in the home folder.
+Add `.streamlit/secrets.toml` in the home folder.
 
 Then put the following:
 ```
@@ -33,6 +39,8 @@ Then run the app from the "home page" file.
 streamlit run 1_🏠_Home.py
 
 ```
+
+**NOTE**: If you've upgraded the version of RAGs, and you're running into issues on launch, you may need to delete the `cache` folder in your home directory (we may have introduced breaking changes in the stored data structure between versions).
 
 ## Detailed Overview
 
@@ -77,7 +85,7 @@ It will be able to pick the right RAG tools (either top-k vector search or optio
 
 ### Builder Agent
 
-By default the builder agent uses OpenAI. This is defined in the `builder_config.py` file.
+By default the builder agent uses OpenAI. This is defined in the `core/builder_config.py` file.
 
 You can customize this to whatever LLM you want (an example is provided for Anthropic).
 
@@ -87,10 +95,18 @@ Note that GPT-4 variants will give the most reliable results in terms of actuall
 
 You can set the configuration either through natural language or manually for both the embedding model and LLM.
 
-- **LLM**: Currently only OpenAI LLMs are supported (conceptually we can support other LLMs but just need to figure out how to map names to LLM configurations)
+- **LLM**: We support the following LLMs, but you need to explicitly specify the ID to the builder agent.
+    - OpenAI: ID is "openai:<model_name>" e.g. "openai:gpt-4-1106-preview"
+    - Anthropic: ID is "anthropic:<model_name>" e.g. "anthropic:claude-2"
+    - Replicate: ID is "replicate:<model_name>"
+    - HuggingFace: ID is "local:<model_name>" e.g. "local:BAAI/bge-small-en"
 - **Embeddings**: Supports text-embedding-ada-002 by default, but also supports Hugging Face models. To use a hugging face model simply prepend with local, e.g. local:BAAI/bge-small-en.
 
 
-## Issues / Contributions
+## Resources
 
-Running into issues? Please file a Github issue or join our [Discord](https://discord.gg/dGcwcsnxhU).
+Running into issues? Please file a GitHub issue or join our [Discord](https://discord.gg/dGcwcsnxhU).
+
+This app was built with [LlamaIndex Python](https://github.com/run-llama/llama_index).
+
+See our launch blog post [here](https://blog.llamaindex.ai/introducing-rags-your-personalized-chatgpt-experience-over-your-data-2b9d140769b1).
